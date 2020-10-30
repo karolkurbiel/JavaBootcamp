@@ -1,4 +1,4 @@
-package ITAcademy._8.Cat;
+package itacademy._8.cat;
 
 public class MainCat {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package ITAcademy._8.MobilePhone;
+package itacademy._8.mobilephone;
 
 public class MainMobilePhone {
     public static void main(String[] args) {

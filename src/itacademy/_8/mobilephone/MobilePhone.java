@@ -1,4 +1,4 @@
-package ITAcademy._8.MobilePhone;
+package itacademy._8.mobilephone;
 
 import java.util.ArrayList;
 import java.util.List;

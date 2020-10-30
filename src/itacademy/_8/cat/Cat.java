@@ -1,4 +1,4 @@
-package ITAcademy._8.Cat;
+package itacademy._8.cat;
 
 public class Cat {
     private final String name;
