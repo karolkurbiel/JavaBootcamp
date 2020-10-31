@@ -9,29 +9,29 @@ public class Cat {
         this.isHungry = true;
     }
 
-    public void isHungry() {
-        if(this.isHungry) {
-            System.out.println(this.name + " is hungry.");
+    public void hungry() {
+        if(isHungry) {
+            System.out.println(name + " is hungry.");
         } else {
-            System.out.println(this.name + " is not hungry.");
+            System.out.println(name + " is not hungry.");
         }
     }
 
     public void eat(String food) {
-        if(this.isHungry) {
-            System.out.println(this.name + " is eating " + food + ".");
-            this.isHungry = false;
+        if(isHungry) {
+            System.out.println(name + " is eating " + food + ".");
+            isHungry = false;
         } else {
-            isHungry();
+            hungry();
         }
     }
 
     public void sleep(int time) {
-        System.out.println(this.name + " is going to sleep for " + time + " hours.");
-        this.isHungry = true;
+        System.out.println(name + " is going to sleep for " + time + " hours.");
+        isHungry = true;
     }
 
     public void play(String toy) {
-        System.out.println(this.name + " is playing with " + toy + ".");
+        System.out.println(name + " is playing with " + toy + ".");
     }
 }

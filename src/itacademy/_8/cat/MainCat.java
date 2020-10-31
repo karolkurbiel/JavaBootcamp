@@ -6,9 +6,9 @@ public class MainCat {
         jaroslaw.eat("milk");
         jaroslaw.eat("mouse");
         jaroslaw.sleep(5);
-        jaroslaw.isHungry();
+        jaroslaw.hungry();
         jaroslaw.eat("mouse");
-        jaroslaw.isHungry();
+        jaroslaw.hungry();
         jaroslaw.play("ball");
     }
 }
