@@ -5,25 +5,24 @@ public class Engine {
     private final String type;
     private final int horsePower;
     private final int capacity;
-    private boolean isStarted;
+    private boolean running;
 
     public Engine(String type, int horsePower, int capacity) {
         this.type = type;
         this.horsePower = horsePower;
         this.capacity = capacity;
-        this.isStarted = false;
+        this.running = false;
     }
 
-    public boolean isStarted() {
-        return isStarted;
+    public boolean isRunning() {
+        return running;
     }
 
     public String getType() {
         return type;
     }
 
-    public int speedLimit(int speed) {
-        //returns car speed produced by engine
+    public int producedSpeed(int speed) {
         double topSpeed = horsePower/0.5;
 
         if(topSpeed >= speed) {
@@ -39,23 +38,18 @@ public class Engine {
     }
 
     public boolean start() {
-        if(!isStarted) {
-            switchState();
+        if(!running) {
+            running = true;
             return true;
         }
         return false;
     }
 
     public boolean stop() {
-        if(isStarted) {
-            switchState();
+        if(running) {
+            running = false;
             return true;
         }
         return false;
-    }
-
-    private void switchState() {
-        //switches state isStarted when called
-        this.isStarted ^= true;
     }
 }

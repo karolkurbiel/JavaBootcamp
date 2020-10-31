@@ -4,51 +4,45 @@ public class Car {
 
     private final String name;
     private final Engine engine;
-    private final int fuelTank;
+    private final int fuelTankCapacity;
     private int fuelTankCurrent;
 
-    public Car(String name, Engine engine, int fuelTank) {
+    public Car(String name, Engine engine, int fuelTankCapacity) {
         this.name = name;
         this.engine = engine;
-        this.fuelTank = fuelTank;
-        this.fuelTankCurrent = fuelTank;
+        this.fuelTankCapacity = fuelTankCapacity;
+        this.fuelTankCurrent = fuelTankCapacity;
     }
 
     public void refuel() {
-        //assigns value from fuelTank to fuelTankCurrent
         fillUp();
         System.out.println("Car " + name + " has been refueled.");
     }
 
     private void fillUp() {
-        this.fuelTankCurrent = fuelTank;
+        fuelTankCurrent = fuelTankCapacity;
     }
 
-    public void drive(int speed, int distance) {
-        //if engine not          : nothing happens
-        //otherwise:
-        //  if range == 0        : also nothing happens
-        //  if range != distance : distance driven and speed will be shown; fuelTankCurrent will be decreased
-        if(!engine.isStarted()) {
+    public void drive(int desiredSpeed, int desiredDistance) {
+        if(!engine.isRunning()) {
             System.out.println("Car " + name + " won't go while its engine is stopped.");
         } else {
             if(range() == 0) {
                 System.out.println("Car " + name + " is not going anywhere. Tank is empty!");
-            } else if(range() >= distance) {
-                System.out.println("Car " + name + " has been driven for " + distance + " km with speed " + engine.speedLimit(speed) + " km/h.");
-                consumeFuel(distance);
+            } else if(range() >= desiredDistance) {
+                System.out.println("Car " + name + " has been driven for " + desiredDistance + " km with speed " + engine.producedSpeed(desiredSpeed) + " km/h.");
+                consumeFuel(desiredDistance);
             } else {
-                System.out.println("Car " + name + " has been driven only for " + range() + " km with speed " + engine.speedLimit(speed) + " km/h.");
+                System.out.println("Car " + name + " has been driven only for " + range() + " km with speed " + engine.producedSpeed(desiredSpeed) + " km/h.");
                 consumeFuel(range());
             }
         }
 
     }
 
-    private void consumeFuel(double dist) {
-        //reduces fuelTankCurrent and prints whats remain
-        if(dist <= range()) {
-            this.fuelTankCurrent -= dist * engine.consumption();
+    private void consumeFuel(double distanceTraveled) {
+        if(distanceTraveled <= range()) {
+            fuelTankCurrent -= distanceTraveled * engine.consumption();
             if(fuelTankCurrent == 0) {
                 System.out.println("Tank is empty");
             } else {
@@ -60,7 +54,6 @@ public class Car {
     }
 
     public void startEngine() {
-        //calling engine.start() and prints status
         if(engine.start()) {
             System.out.println("Car " + name + " is starting " + engine.getType() + " engine.");
             System.out.println(engine.getType() + " engine has been started.");
@@ -70,7 +63,6 @@ public class Car {
     }
 
     public void stopEngine() {
-        //calling engine.stop() and prints status
         if(engine.stop()) {
             System.out.println("Car " + name + " is shutting down " + engine.getType() + " engine.");
             System.out.println(engine.getType() + " engine has been stopped.");
