@@ -9,7 +9,7 @@ public class Laptop {
     private int ram;
 
     public Laptop(Laptop laptop) {
-        this(laptop.getName(), new Processor(laptop.getProcessor()), new Drive(laptop.getDrive()), laptop.getWeight(), laptop.getScreenSize(), laptop.getRam());
+        this(laptop.getName(), laptop.getProcessor(), laptop.getDrive(), laptop.getWeight(), laptop.getScreenSize(), laptop.getRam());
     }
 
     public Laptop(String name, Processor processor, Drive drive, double weight, double screenSize, int ram) {
@@ -26,11 +26,11 @@ public class Laptop {
     }
 
     public Processor getProcessor() {
-        return processor;
+        return new Processor(processor);
     }
 
     public Drive getDrive() {
-        return drive;
+        return new Drive(drive);
     }
 
     public double getWeight() {
