@@ -1,23 +1,24 @@
 package itacademy._15.itemsstorecatalogue;
 
-import java.util.Scanner;
-import java.util.TreeMap;
+import com.sun.source.tree.Tree;
+
+import java.util.*;
 
 public class MainCatalogue {
     public static void main(String[] args) {
         getMenu(populateList());
     }
 
-    private static void getMenu(TreeMap<String, Item> itemList) {
+    private static void getMenu(Map<String, Item> itemList) {
         Scanner scanner = new Scanner(System.in);
         boolean quit = false;
         while(!quit) {
             System.out.println("To sort item list, please press on keyboard:");
             System.out.println("\t0 - to quit" +
-                    "\n\t1 - to sort by name" +
+                    "\n\t1 - to sort by name in ascending order" +
                     "\n\t2 - to sort by name in reverse order" +
-                    "\n\t3 - to sort in ascending order" +
-                    "\n\t4 - to sort in descending order");
+                    "\n\t3 - to sort by price in ascending order" +
+                    "\n\t4 - to sort by price in descending order");
             int chose = scanner.nextInt();
             scanner.nextLine();
 
@@ -26,27 +27,40 @@ public class MainCatalogue {
                     quit = true;
                     break;
                 case 1:
-                    System.out.println("List sorted by name: " + itemList);
+                    TreeMap<String, Item> ascendingKeys = new TreeMap<>(itemList);
+                    System.out.println("List sorted by name: " + ascendingKeys);
                     break;
                 case 2:
-                    System.out.println("List sorted by name descending:" + itemList.descendingMap());
+                    TreeMap<String, Item> descendingKeys = new TreeMap<>(itemList);
+                    System.out.println("List sorted by name descending:" + descendingKeys.descendingMap());
                     break;
                 case 3:
-                    TreeMap<String, Item> ascendingList = new TreeMap<>(new ItemByPriceComparator(itemList));
-                    ascendingList.putAll(itemList);
-                    System.out.println("List sorted by price:" + ascendingList);
+                    System.out.println("List sorted by price:" + getSortedMapByValue(itemList, Order.ASCENDING));
                     break;
                 case 4:
-                    TreeMap<String, Item> descendingList = new TreeMap<>(new ItemByPriceComparator(itemList));
-                    descendingList.putAll(itemList);
-                    System.out.println("List sorted by price descending:" + descendingList.descendingMap());
+                    System.out.println("List sorted by price descending:" + getSortedMapByValue(itemList, Order.DESCENDING));
                     break;
             }
         }
     }
 
-    private static TreeMap<String, Item> populateList() {
-        TreeMap<String, Item> itemList = new TreeMap<>();
+    private static LinkedHashMap<String, Item> getSortedMapByValue(Map<String, Item> mapToSort, Order sortingType) {
+        List<Map.Entry<String, Item>> entryList = new ArrayList<>(mapToSort.entrySet());
+        entryList.sort(new ItemByPriceComparator());
+        if(sortingType == Order.DESCENDING) {
+            Collections.reverse(entryList);
+        }
+
+        LinkedHashMap<String, Item> sortedMap = new LinkedHashMap<>();
+        for(Map.Entry<String, Item> entry : entryList) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+
+        return sortedMap;
+    }
+
+    private static Map<String, Item> populateList() {
+        Map<String, Item> itemList = new HashMap<>();
 
         Item newItem = new Item("Pierogi", 2.4);
         itemList.put(newItem.getName(), newItem);
