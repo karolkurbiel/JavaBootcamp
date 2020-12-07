@@ -7,11 +7,14 @@ public class MainLaptop {
         Laptop thirdComputer = createCopy(firstComputer);
 
         secondComputer.setName("MacBook");
-        secondComputer.getProcessor().setName("ARM-Apple");
+        secondComputer.getProcessor().setName("M1");
+        secondComputer.setWeight(1.5);
         secondComputer.getDrive().setCapacity(2);
 
         thirdComputer.getProcessor().setName("Intel i9");
         thirdComputer.getDrive().setTYPE(Drive.DriveType.HDD);
+        thirdComputer.setWeight(3);
+        thirdComputer.setRam(32);
 
         System.out.println("1: " + firstComputer);
         System.out.println("2: " + secondComputer);
