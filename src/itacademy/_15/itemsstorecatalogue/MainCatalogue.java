@@ -1,7 +1,5 @@
 package itacademy._15.itemsstorecatalogue;
 
-import com.sun.source.tree.Tree;
-
 import java.util.*;
 
 public class MainCatalogue {
