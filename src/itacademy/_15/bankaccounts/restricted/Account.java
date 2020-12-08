@@ -3,7 +3,7 @@ package itacademy._15.bankaccounts.restricted;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public abstract class Account implements Comparable<Account> {
+abstract class Account implements Comparable<Account> {
     private final String accountNumber;
     private final String accountOwner;
     private BigDecimal balance;

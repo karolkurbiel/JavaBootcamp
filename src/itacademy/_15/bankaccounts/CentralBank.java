@@ -1,6 +1,5 @@
 package itacademy._15.bankaccounts;
 
-import itacademy._15.bankaccounts.restricted.Account;
 import itacademy._15.bankaccounts.restricted.Bank;
 
 import java.math.BigDecimal;
@@ -8,17 +7,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CentralBank {
+    private static CentralBank instance = new CentralBank();
     private final Map<String, Bank> bankList;
 
-    public CentralBank() {
+    public static CentralBank getInstance() {
+        return instance;
+    }
+
+    private CentralBank() {
         this.bankList = new HashMap<>();
     }
 
     public boolean createNewBak(Bank bank) {
-        if(bankList.containsKey(bank.getName())) {
+        if(bankList.containsKey(bank.getBankName())) {
             return false;
         }
-        bankList.put(bank.getName(), bank);
+        bankList.put(bank.getBankName(), bank);
         return true;
     }
 
@@ -31,14 +35,14 @@ public class CentralBank {
         return true;
     }
 
-    public boolean makeCrossBankTransfer(Account sender, BigDecimal amount, Account recipient) {
+    public boolean makeCrossBankTransfer(String senderAccountNumber, BigDecimal amount, String recipientAccountNumber) {
         Bank sendersBank = null;
         Bank recipientsBank = null;
         for(Map.Entry<String, Bank> bankEntry : bankList.entrySet()) {
-            if(bankEntry.getValue().getAccountList().containsValue(sender)) {
+            if(bankEntry.getValue().getAccountList().containsKey(senderAccountNumber)) {
                 sendersBank = bankEntry.getValue();
             }
-            if(bankEntry.getValue().getAccountList().containsValue(recipient)) {
+            if(bankEntry.getValue().getAccountList().containsKey(recipientAccountNumber)) {
                 recipientsBank = bankEntry.getValue();
             }
         }
@@ -46,7 +50,10 @@ public class CentralBank {
             return false;
         }
 
-        return recipientsBank.makeExternalTransfer(sender, amount, recipient);
+        if(sendersBank.withdrawAccount(senderAccountNumber, amount)) {
+            return recipientsBank.makeExternalTransfer(amount, recipientAccountNumber);
+        }
+        return false;
     }
 
     public Bank getBank(String name) {

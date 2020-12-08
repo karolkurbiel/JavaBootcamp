@@ -2,7 +2,7 @@ package itacademy._15.bankaccounts.restricted;
 
 import java.math.BigDecimal;
 
-public class SavingsAccount extends Account {
+class SavingsAccount extends Account {
     public SavingsAccount(String accountNumber, String accountOwner, BigDecimal balance, BigDecimal percentage) {
         super(accountNumber, accountOwner, balance, percentage);
     }

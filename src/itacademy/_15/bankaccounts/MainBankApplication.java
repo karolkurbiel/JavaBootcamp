@@ -1,14 +1,15 @@
 package itacademy._15.bankaccounts;
 
-import itacademy._15.bankaccounts.restricted.Account;
 import itacademy._15.bankaccounts.restricted.Bank;
-import itacademy._15.bankaccounts.restricted.CreditAccount;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainBankApplication {
 
     private static CentralBank centralBank;
+    private static final Map<String, String> accountNumbersListAid = new HashMap<>();
 
     static {
         initBanking();
@@ -20,42 +21,45 @@ public class MainBankApplication {
         BigDecimal value = BigDecimal.valueOf(69.00);
         String bankName = "QUICKcash";
         String accountName = "Bozena";
-        System.out.println("\tWithdraw: bank: " + bankName + "; account: " + accountName + "; operation value: " + value + ":"
-                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
-                + "\n\t\tOperation status: " + centralBank.getBank(bankName).getAccountList().get(accountName).withdraw(value)
-                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
+        String accountNumber = accountNumbersListAid.get(accountName);
+        System.out.println("\tWithdraw: bank: " + bankName + "; account: " + accountNumber + "; operation value: " + value + ":"
+                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
+                + "\n\t\tOperation status: " + centralBank.getBank(bankName).withdrawAccount(accountNumber, value)
+                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
         );
         System.out.println("---");
 
         value = BigDecimal.valueOf(100.00);
         bankName = "National Bank of Losers";
         accountName = "Roman";
-        System.out.println("\tTop up: bank: " + bankName + "; account: " + accountName + "; operation value: " + value + ":"
-                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
-                + "\n\t\tOperation status: " + centralBank.getBank(bankName).getAccountList().get(accountName).topUp(value)
-                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
+        accountNumber = accountNumbersListAid.get(accountName);
+        System.out.println("\tTop up: bank: " + bankName + "; account: " + accountNumber + "; operation value: " + value + ":"
+                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
+                + "\n\t\tOperation status: " + centralBank.getBank(bankName).topUpAccount(accountNumber, value)
+                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
         );
         System.out.println("---");
 
         value = BigDecimal.valueOf(100.00);
         bankName = "National Bank of Losers";
         accountName = "Roman";
-        System.out.println("\tTop up: bank: " + bankName + "; account: " + accountName + "; operation value: " + value + ":"
-                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
-                + "\n\t\tOperation status: " + centralBank.getBank(bankName).getAccountList().get(accountName).topUp(value)
-                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
+        accountNumber = accountNumbersListAid.get(accountName);
+        System.out.println("\tTop up: bank: " + bankName + "; account: " + accountNumber + "; operation value: " + value + ":"
+                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
+                + "\n\t\tOperation status: " + centralBank.getBank(bankName).topUpAccount(accountNumber, value)
+                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
         );
         System.out.println("---");
 
         value = BigDecimal.valueOf(200_000.00);
         bankName = "GetBackLOL";
         accountName = "Matousz";
-        CreditAccount creditAccount = (CreditAccount) centralBank.getBank(bankName).getAccountList().get(accountName);
-        creditAccount.setDebtLimit(BigDecimal.valueOf(500_000.50));
-        System.out.println("\tWithdraw: bank: " + bankName + "; account: " + accountName + "; operation value: " + value + ":"
-                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
-                + "\n\t\tOperation status: " + centralBank.getBank(bankName).getAccountList().get(accountName).withdraw(value)
-                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
+        accountNumber = accountNumbersListAid.get(accountName);
+        centralBank.getBank(bankName).setNewDebitLimit(accountNumber, BigDecimal.valueOf(500_000.50));
+        System.out.println("\tWithdraw: bank: " + bankName + "; account: " + accountNumber + "; operation value: " + value + ":"
+                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
+                + "\n\t\tOperation status: " + centralBank.getBank(bankName).withdrawAccount(accountNumber, value)
+                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
         );
         System.out.println("---");
 
@@ -79,68 +83,69 @@ public class MainBankApplication {
         bankName = "Intense Life";
         accountName = "Oskar";
         String accountName2 = "Julka";
-        Account oskarsAccount = centralBank.getBank(bankName).getAccountList().get(accountName);
-        Account julkasAccount = centralBank.getBank(bankName).getAccountList().get(accountName2);
-        System.out.println("\tInternal transfer: bank: " + bankName + "; account: " + accountName + ", " + accountName2 + "; operation value: " + value + ":"
-                        + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
-                        + "\n\t\tAccount2 balance before: " + centralBank.getBank(bankName).getAccountList().get(accountName2).getBalance()
-                        + "\n\t\tOperation status: " + centralBank.getBank(bankName).makeInternalTransfer(oskarsAccount, value, julkasAccount)
-                        + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
-                        + "\n\t\tAccount2 balance after: " + centralBank.getBank(bankName).getAccountList().get(accountName2).getBalance()
+        accountNumber = accountNumbersListAid.get(accountName);
+        String accountNumber2 = accountNumbersListAid.get(accountName2);
+        System.out.println("\tInternal transfer: bank: " + bankName + "; account: " + accountNumber + ", " + accountNumber2 + "; operation value: " + value + ":"
+                        + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
+                        + "\n\t\tAccount2 balance before: " + centralBank.getBank(bankName).getAccountBalance(accountNumber2)
+                        + "\n\t\tOperation status: " + centralBank.getBank(bankName).makeInternalTransfer(accountNumber, value, accountNumber2)
+                        + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
+                        + "\n\t\tAccount2 balance after: " + centralBank.getBank(bankName).getAccountBalance(accountNumber2)
         );
         System.out.println("---");
 
         value = BigDecimal.valueOf(35_000.00);
-        bankName2 = "Intense Life";
         bankName = "GetBackLOL";
+        bankName2 = "Intense Life";
         accountName = "Mieczyslaw";
         accountName2 = "Julka";
-        Account mieczyslawAccount = centralBank.getBank(bankName).getAccountList().get(accountName);
-        julkasAccount = centralBank.getBank(bankName2).getAccountList().get(accountName2);
-        System.out.println("\tExternal transfer: bank: " + bankName + ", " + bankName2 + "; account: " + accountName + ", " + accountName2 + "; operation value: " + value + ":"
-                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
-                + "\n\t\tAccount2 balance before: " + centralBank.getBank(bankName2).getAccountList().get(accountName2).getBalance()
-                + "\n\t\tOperation status: " + centralBank.makeCrossBankTransfer(mieczyslawAccount, value, julkasAccount)
-                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
-                + "\n\t\tAccount2 balance after: " + centralBank.getBank(bankName2).getAccountList().get(accountName2).getBalance()
+        accountNumber = accountNumbersListAid.get(accountName);
+        accountNumber2 = accountNumbersListAid.get(accountName2);
+        System.out.println("\tExternal transfer: bank: " + bankName + ", " + bankName2 + "; account: " + accountNumber + ", " + accountNumber2 + "; operation value: " + value + ":"
+                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
+                + "\n\t\tAccount2 balance before: " + centralBank.getBank(bankName2).getAccountBalance(accountNumber2)
+                + "\n\t\tOperation status: " + centralBank.makeCrossBankTransfer(accountNumber, value, accountNumber2)
+                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
+                + "\n\t\tAccount2 balance after: " + centralBank.getBank(bankName2).getAccountBalance(accountNumber2)
         );
         System.out.println("---");
 
         value = BigDecimal.valueOf(35_000.00);
         bankName = "GetBackLOL";
         accountName = "Mieczyslaw";
-        System.out.println("\tWithdraw: bank: " + bankName + "; account: " + accountName + "; operation value: " + value + ":"
-                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
-                + "\n\t\tOperation status: " + centralBank.getBank(bankName).getAccountList().get(accountName).withdraw(value)
-                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
+        accountNumber = accountNumbersListAid.get(accountName);
+        System.out.println("\tWithdraw: bank: " + bankName + "; account: " + accountNumber + "; operation value: " + value + ":"
+                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
+                + "\n\t\tOperation status: " + centralBank.getBank(bankName).withdrawAccount(accountNumber, value)
+                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
         );
         System.out.println("---");
 
         value = BigDecimal.valueOf(3_000.00);
         bankName = "GetBackLOL";
         accountName = "Mieczyslaw";
-        mieczyslawAccount = centralBank.getBank(bankName).getAccountList().get(accountName);
-        System.out.println("\tTop up with number: bank: " + bankName + "; account: " + accountName + "; operation value: " + value + ":"
-                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
-                + "\n\t\tOperation status: " + centralBank.getBank(bankName).topUpAccount(mieczyslawAccount.getAccountNumber(), value)
-                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
+        accountNumber = accountNumbersListAid.get(accountName);
+        System.out.println("\tTop up: bank: " + bankName + "; account: " + accountNumber + "; operation value: " + value + ":"
+                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
+                + "\n\t\tOperation status: " + centralBank.getBank(bankName).topUpAccount(accountNumber, value)
+                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
         );
         System.out.println("---");
 
         value = BigDecimal.valueOf(35_000.00);
         bankName = "Intense Life";
         accountName = "Julka";
-        julkasAccount = centralBank.getBank(bankName).getAccountList().get(accountName);
-        System.out.println("\tWithdraw with number: bank: " + bankName + "; account: " + accountName + "; operation value: " + value + ":"
-                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
-                + "\n\t\tOperation status: " + centralBank.getBank(bankName).withdrawAccount(julkasAccount.getAccountNumber(), value)
-                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountList().get(accountName).getBalance()
+        accountNumber = accountNumbersListAid.get(accountName);
+        System.out.println("\tWithdraw: bank: " + bankName + "; account: " + accountNumber + "; operation value: " + value + ":"
+                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
+                + "\n\t\tOperation status: " + centralBank.getBank(bankName).topUpAccount(accountNumber, value)
+                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
         );
         System.out.println("---");
     }
 
     private static void initBanking() {
-        centralBank = new CentralBank();
+        centralBank = CentralBank.getInstance();
 
         centralBank.createNewBank("QUICKcash");
         centralBank.createNewBank("GetBackLOL");
@@ -152,27 +157,27 @@ public class MainBankApplication {
         centralBank.createNewBak(bank);
 
         bank = centralBank.getBank("QUICKcash");
-        bank.addAccount("Janusz", BigDecimal.valueOf(10.50), Bank.AccountType.CREDIT, BigDecimal.valueOf(0.0987));
-        bank.addAccount("Bozena", BigDecimal.valueOf(1011.29), Bank.AccountType.CREDIT, BigDecimal.valueOf(0.0678));
+        accountNumbersListAid.put("Janusz", bank.addAccount("Janusz", BigDecimal.valueOf(10.50), Bank.AccountType.CREDIT, BigDecimal.valueOf(0.0987)));
+        accountNumbersListAid.put("Bozena", bank.addAccount("Bozena", BigDecimal.valueOf(1011.29), Bank.AccountType.CREDIT, BigDecimal.valueOf(0.0678)));
 
         bank = centralBank.getBank("GetBackLOL");
-        bank.addAccount("Matousz",BigDecimal.valueOf(100_000.96),Bank.AccountType.CREDIT, BigDecimal.valueOf(0.1499));
-        bank.addAccount("Mieczyslaw",BigDecimal.valueOf(34_076.00),Bank.AccountType.CREDIT, BigDecimal.valueOf(0.1234));
+        accountNumbersListAid.put("Matousz", bank.addAccount("Matousz",BigDecimal.valueOf(100_000.96),Bank.AccountType.CREDIT, BigDecimal.valueOf(0.1499)));
+        accountNumbersListAid.put("Mieczyslaw", bank.addAccount("Mieczyslaw",BigDecimal.valueOf(34_076.00),Bank.AccountType.CREDIT, BigDecimal.valueOf(0.1234)));
 
         bank = centralBank.getBank("McDuck Bank");
-        bank.addAccount("Donald",BigDecimal.valueOf(1_000_000.00),Bank.AccountType.SAVINGS, BigDecimal.valueOf(0.01));
-        bank.addAccount("Quackmore",BigDecimal.valueOf(50_000.00),Bank.AccountType.SAVINGS, BigDecimal.valueOf(0.02));
+        accountNumbersListAid.put("Donald", bank.addAccount("Donald",BigDecimal.valueOf(1_000_000.00),Bank.AccountType.SAVINGS, BigDecimal.valueOf(0.01)));
+        accountNumbersListAid.put("Quackmore", bank.addAccount("Quackmore",BigDecimal.valueOf(50_000.00),Bank.AccountType.SAVINGS, BigDecimal.valueOf(0.02)));
 
         bank = centralBank.getBank("National Bank of Losers");
-        bank.addAccount("Roman",BigDecimal.valueOf(50.00),Bank.AccountType.CREDIT, BigDecimal.valueOf(0.0845));
-        bank.addAccount("Bartosz",BigDecimal.valueOf(50_000.00),Bank.AccountType.SAVINGS, BigDecimal.valueOf(0.01));
+        accountNumbersListAid.put("Roman", bank.addAccount("Roman",BigDecimal.valueOf(50.00),Bank.AccountType.CREDIT, BigDecimal.valueOf(0.0845)));
+        accountNumbersListAid.put("Bartosz", bank.addAccount("Bartosz",BigDecimal.valueOf(50_000.00),Bank.AccountType.SAVINGS, BigDecimal.valueOf(0.01)));
 
         bank = centralBank.getBank("Outer Bank");
-        bank.addAccount("Ryszard",BigDecimal.valueOf(14_000.00),Bank.AccountType.SAVINGS, BigDecimal.valueOf(0.03));
-        bank.addAccount("Tomasz",BigDecimal.valueOf(50_000.00),Bank.AccountType.CREDIT, BigDecimal.valueOf(0.1405));
+        accountNumbersListAid.put("Ryszard", bank.addAccount("Ryszard",BigDecimal.valueOf(14_000.00),Bank.AccountType.SAVINGS, BigDecimal.valueOf(0.03)));
+        accountNumbersListAid.put("Tomasz", bank.addAccount("Tomasz",BigDecimal.valueOf(50_000.00),Bank.AccountType.CREDIT, BigDecimal.valueOf(0.1405)));
 
         bank = centralBank.getBank("Intense Life");
-        bank.addAccount("Julka",BigDecimal.valueOf(100.00),Bank.AccountType.SAVINGS, BigDecimal.valueOf(0.09));
-        bank.addAccount("Oskar",BigDecimal.valueOf(100.00),Bank.AccountType.CREDIT, BigDecimal.valueOf(0.0550));
+        accountNumbersListAid.put("Julka", bank.addAccount("Julka",BigDecimal.valueOf(100.00),Bank.AccountType.SAVINGS, BigDecimal.valueOf(0.09)));
+        accountNumbersListAid.put("Oskar", bank.addAccount("Oskar",BigDecimal.valueOf(100.00),Bank.AccountType.CREDIT, BigDecimal.valueOf(0.0550)));
     }
 }

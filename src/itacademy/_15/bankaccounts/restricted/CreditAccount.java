@@ -2,7 +2,7 @@ package itacademy._15.bankaccounts.restricted;
 
 import java.math.BigDecimal;
 
-public class CreditAccount extends Account {
+class CreditAccount extends Account {
     private BigDecimal debtLimit;
 
     public CreditAccount(String accountNumber, String accountOwner, BigDecimal balance, BigDecimal percentage, BigDecimal debtLimit) {
@@ -33,7 +33,7 @@ public class CreditAccount extends Account {
             super.setBalance(getBalance().add(getBalance().multiply(getPercentage())));
             return true;
         }
-        System.out.println("\t\t\t" + super.getAccountOwner() + ": No debt, no fee.");
+        System.out.println("\t\t\t" + super.getAccountNumber() + ": No debt, no fee.");
         return false;
     }
 }
