@@ -33,12 +33,6 @@ public class Bank implements Comparable<Bank> {
         return accountList;
     }
 
-//    public String getAccountNumber(String ownerName) {
-//        for(Map.Entry<String, Account> account : accountList.entrySet()) {
-//
-//        }
-//    }
-
     public BigDecimal getAccountBalance(String accountNumber) {
         if(accountList.containsKey(accountNumber)) {
             return accountList.get(accountNumber).getBalance();
@@ -60,7 +54,6 @@ public class Bank implements Comparable<Bank> {
     }
 
     public boolean makeExternalTransfer(BigDecimal amount, String recipientAccountNumber) {
-//        Account sender = accountList.get(senderAccountNumber);
         Account recipient = accountList.get(recipientAccountNumber);
         return recipient.topUp(amount);
     }
@@ -98,19 +91,6 @@ public class Bank implements Comparable<Bank> {
     }
 
     public boolean topUpAccount(String accountNumber, BigDecimal amount) {
-
-//        Account processedAccount = null;
-//
-//        for(Map.Entry<String, Account> account : accountList.entrySet()) {
-//            if(account.getValue().getAccountNumber().equals(accountNumber)) {
-//                processedAccount = account.getValue();
-//                break;
-//            }
-//        }
-//        if(processedAccount != null) {
-//            return processedAccount.topUp(amount);
-//        }
-
         if(accountList.containsKey(accountNumber)) {
             return accountList.get(accountNumber).topUp(amount);
         }
@@ -118,18 +98,6 @@ public class Bank implements Comparable<Bank> {
     }
 
     public boolean withdrawAccount(String accountNumber, BigDecimal amount) {
-//        Account processedAccount = null;
-//
-//        for(Map.Entry<String, Account> account : accountList.entrySet()) {
-//            if(account.getValue().getAccountNumber().equals(accountNumber)) {
-//                processedAccount = account.getValue();
-//                break;
-//            }
-//        }
-//        if(processedAccount != null) {
-//            return processedAccount.withdraw(amount);
-//        }
-
         if(accountList.containsKey(accountNumber)) {
             return accountList.get(accountNumber).withdraw(amount);
         }
