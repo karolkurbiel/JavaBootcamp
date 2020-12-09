@@ -11,6 +11,7 @@ class CreditAccount extends Account {
     }
 
     public void setDebtLimit(BigDecimal debtLimit) {
+        super.accountHistory.add(new Log(OperationType.SET_NEW_DEBT_LIMIT, super.getBalance(), super.getBalance(), this.debtLimit, (debtLimit.multiply(BigDecimal.valueOf(-1)))));
         this.debtLimit = debtLimit.multiply(BigDecimal.valueOf(-1));
     }
 
@@ -21,6 +22,7 @@ class CreditAccount extends Account {
     @Override
     public boolean withdraw(BigDecimal amount) {
         if(debtLimit.compareTo(super.getBalance().subtract(amount)) <= 0) {
+            accountHistory.add(new Log(OperationType.WITHDRAW, getBalance(), getBalance().subtract(amount)));
             super.setBalance(super.getBalance().subtract(amount));
             return true;
         }
@@ -30,6 +32,7 @@ class CreditAccount extends Account {
     @Override
     public boolean applyPercentage() {
         if(super.getBalance().compareTo(BigDecimal.ZERO) < 0) {
+            accountHistory.add(new Log(OperationType.APPLY_PERCENTAGE, getBalance(), getBalance().add(getBalance().multiply(getPercentage()))));
             super.setBalance(getBalance().add(getBalance().multiply(getPercentage())));
             return true;
         }

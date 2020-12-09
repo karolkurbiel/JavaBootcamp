@@ -142,6 +142,41 @@ public class MainBankApplication {
                 + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
         );
         System.out.println("---");
+
+        bankName = "QUICKcash";
+        accountName = "Bozena";
+        accountNumber = accountNumbersListAid.get(accountName);
+        System.out.println("Account " + accountNumber + " history:");
+        System.out.println(centralBank.getBank(bankName).getAccountHistory(accountNumber));
+
+        bankName = "National Bank of Losers";
+        accountName = "Roman";
+        accountNumber = accountNumbersListAid.get(accountName);
+        System.out.println("Account " + accountNumber + " history:");
+        System.out.println(centralBank.getBank(bankName).getAccountHistory(accountNumber));
+
+        bankName = "GetBackLOL";
+        accountName = "Matousz";
+        accountNumber = accountNumbersListAid.get(accountName);
+        System.out.println("Account " + accountNumber + " history:");
+        System.out.println(centralBank.getBank(bankName).getAccountHistory(accountNumber));
+
+        bankName = "Intense Life";
+        accountName = "Oskar";
+        accountNumber = accountNumbersListAid.get(accountName);
+        System.out.println("Account " + accountNumber + " history:");
+        System.out.println(centralBank.getBank(bankName).getAccountHistory(accountNumber));
+
+        accountName = "Julka";
+        accountNumber = accountNumbersListAid.get(accountName);
+        System.out.println("Account " + accountNumber + " history:");
+        System.out.println(centralBank.getBank(bankName).getAccountHistory(accountNumber));
+
+        bankName = "GetBackLOL";
+        accountName = "Mieczyslaw";
+        accountNumber = accountNumbersListAid.get(accountName);
+        System.out.println("Account " + accountNumber + " history:");
+        System.out.println(centralBank.getBank(bankName).getAccountHistory(accountNumber));
     }
 
     private static void initBanking() {

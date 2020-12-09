@@ -1,10 +1,7 @@
 package itacademy._15.bankaccounts.restricted;
 
 import java.math.BigDecimal;
-import java.util.InputMismatchException;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Bank implements Comparable<Bank> {
     private final String bankName;
@@ -40,6 +37,13 @@ public class Bank implements Comparable<Bank> {
         return null;
     }
 
+    public Set<Log> getAccountHistory(String accountNumber) {
+        if(accountList.containsKey(accountNumber)) {
+            return  accountList.get(accountNumber).getAccountHistory();
+        }
+        return null;
+    }
+
     public void setNewDebitLimit(String accountNumber, BigDecimal newDebtLimit) {
         if(accountList.containsKey(accountNumber)) {
             Account processedAccount = accountList.get(accountNumber);
@@ -48,6 +52,15 @@ public class Bank implements Comparable<Bank> {
             } else {
                 throw new InputMismatchException();
             }
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public void setNewPercentage(String accountNumber, BigDecimal newPercentage) {
+        if(accountList.containsKey(accountNumber)) {
+            Account processedAccount = accountList.get(accountNumber);
+            processedAccount.setPercentage(newPercentage);
         } else {
             throw new NullPointerException();
         }
