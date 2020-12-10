@@ -1,5 +1,8 @@
 package itacademy._15.bankaccounts.restricted;
 
+import itacademy._15.bankaccounts.exceptions.AccountNotFoundException;
+import itacademy._15.bankaccounts.exceptions.InsufficientFoundsException;
+
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -18,6 +21,7 @@ public class Bank implements Comparable<Bank> {
     public Bank(String bankName) {
         this.bankName = bankName;
         this.accountList = new TreeMap<>();
+
         createdBanksCount++;
         currentBankNumber = createdBanksCount;
     }
@@ -34,14 +38,14 @@ public class Bank implements Comparable<Bank> {
         if(accountList.containsKey(accountNumber)) {
             return accountList.get(accountNumber).getBalance();
         }
-        return null;
+        throw new AccountNotFoundException();
     }
 
     public Set<Log> getAccountHistory(String accountNumber) {
         if(accountList.containsKey(accountNumber)) {
             return  accountList.get(accountNumber).getAccountHistory();
         }
-        return null;
+        throw new AccountNotFoundException();
     }
 
     public void setNewDebitLimit(String accountNumber, BigDecimal newDebtLimit) {
@@ -50,10 +54,11 @@ public class Bank implements Comparable<Bank> {
             if(processedAccount instanceof CreditAccount) {
                 ((CreditAccount) processedAccount).setDebtLimit(newDebtLimit);
             } else {
-                throw new InputMismatchException();
+                String exceptionInfo = "Only CreditAccount is accepted here.";
+                throw new InputMismatchException(exceptionInfo);
             }
         } else {
-            throw new NullPointerException();
+            throw new AccountNotFoundException();
         }
     }
 
@@ -62,7 +67,7 @@ public class Bank implements Comparable<Bank> {
             Account processedAccount = accountList.get(accountNumber);
             processedAccount.setPercentage(newPercentage);
         } else {
-            throw new NullPointerException();
+            throw new AccountNotFoundException();
         }
     }
 
@@ -77,23 +82,28 @@ public class Bank implements Comparable<Bank> {
             Account recipient = accountList.get(recipientAccountNumber);
             return makeTransfer(sender, amount, recipient);
         }
-        return false;
+        throw new AccountNotFoundException();
     }
 
     private boolean makeTransfer(Account sender, BigDecimal amount, Account recipient) {
         if(((amount.compareTo(sender.getBalance()) <= 0) || (((CreditAccount) sender).getDebtLimit()).compareTo((sender.getBalance()).subtract(amount)) <= 0) && accountList.containsValue(recipient)) {
             return sender.withdraw(amount) && recipient.topUp(amount);
         }
-        return false;
+        if(!accountList.containsValue(recipient)) {
+            throw new AccountNotFoundException();
+        }
+        String exceptionInfo = "Account balance: $" + sender.getBalance() + ", is insufficient for withdrawal: $" + amount + ".";
+        throw new InsufficientFoundsException(exceptionInfo);
     }
 
-    public String addAccount(String ownerName, BigDecimal initialBalance, AccountType ACCOUNT_TYPE, BigDecimal percentage) {
-        if(accountList.containsKey(ownerName) || initialBalance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new NullPointerException();
+    public String addAccount(String ownerName, BigDecimal initialBalance, AccountType accountType, BigDecimal percentage) {
+        if(initialBalance.compareTo(BigDecimal.ZERO) < 0) {
+            String exceptionInfo = "Provided initial balance is negative.";
+            throw new InputMismatchException(exceptionInfo);
         }
 
         String accountNumber;
-        if(ACCOUNT_TYPE == AccountType.CREDIT) {
+        if(accountType == AccountType.CREDIT) {
             accountNumber = "PL" + currentBankNumber + "0000000" + (accountList.size() + 1) + "C";
             accountList.put(accountNumber, new CreditAccount(accountNumber, ownerName, initialBalance, percentage, BigDecimal.valueOf(5000)));
         } else {
@@ -107,14 +117,14 @@ public class Bank implements Comparable<Bank> {
         if(accountList.containsKey(accountNumber)) {
             return accountList.get(accountNumber).topUp(amount);
         }
-        return false;
+        throw new AccountNotFoundException();
     }
 
     public boolean withdrawAccount(String accountNumber, BigDecimal amount) {
         if(accountList.containsKey(accountNumber)) {
             return accountList.get(accountNumber).withdraw(amount);
         }
-        return false;
+        throw new AccountNotFoundException();
     }
 
     public void recalculatePercents() {

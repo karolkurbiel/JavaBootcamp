@@ -1,17 +1,15 @@
 package itacademy._15.bankaccounts.restricted;
 
+import itacademy._15.bankaccounts.exceptions.InsufficientFoundsException;
+
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 abstract class Account implements Comparable<Account> {
     private final String accountNumber;
     private final String accountOwner;
     private BigDecimal balance;
     private BigDecimal percentage;
-
     protected final Set<Log> accountHistory;
 
     public Account(String accountNumber, String accountOwner, BigDecimal balance, BigDecimal percentage) {
@@ -19,7 +17,6 @@ abstract class Account implements Comparable<Account> {
         this.accountOwner = accountOwner;
         this.balance = balance;
         this.percentage = percentage;
-
         this.accountHistory = new TreeSet<>();
     }
 
@@ -57,7 +54,8 @@ abstract class Account implements Comparable<Account> {
             balance = balance.add(amount);
             return true;
         }
-        return false;
+        String exceptionInfo = "The deposited founds must be greater than zero.";
+        throw new InputMismatchException(exceptionInfo);
     }
 
     public boolean withdraw(BigDecimal amount) {
@@ -66,7 +64,8 @@ abstract class Account implements Comparable<Account> {
             balance = balance.subtract(amount);
             return true;
         }
-        return false;
+        String exceptionInfo = "Account balance: $" + balance + ", is insufficient for withdrawal: $" + amount + ".";
+        throw new InsufficientFoundsException(exceptionInfo);
     }
 
     public boolean applyPercentage() {

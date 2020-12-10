@@ -1,5 +1,7 @@
 package itacademy._15.bankaccounts.restricted;
 
+import itacademy._15.bankaccounts.exceptions.ReachedCreditLimitException;
+
 import java.math.BigDecimal;
 
 class CreditAccount extends Account {
@@ -26,7 +28,8 @@ class CreditAccount extends Account {
             super.setBalance(super.getBalance().subtract(amount));
             return true;
         }
-        return false;
+        String exceptionInfo = "Account balance: $" + getBalance() + ", with debt limit: $" + debtLimit + " is insufficient for withdrawal: $" + amount + ".";
+        throw new ReachedCreditLimitException(exceptionInfo);
     }
 
     @Override

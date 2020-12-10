@@ -6,15 +6,15 @@ import java.util.Objects;
 
 class Log implements Comparable<Log>{
     private final LocalDateTime timeMarker;
-    private final OperationType OPERATION_TYPE;
+    private final OperationType operationType;
     private final BigDecimal balanceBefore;
     private final BigDecimal balanceAfter;
     private final BigDecimal debtLimitBefore;
     private final BigDecimal debtLimitAfter;
 
-    public Log(OperationType OPERATION_TYPE, BigDecimal balanceBefore, BigDecimal balanceAfter) {
+    public Log(OperationType operationType, BigDecimal balanceBefore, BigDecimal balanceAfter) {
         this.timeMarker = LocalDateTime.now();
-        this.OPERATION_TYPE = OPERATION_TYPE;
+        this.operationType = operationType;
         this.balanceBefore = balanceBefore;
         this.balanceAfter = balanceAfter;
 
@@ -23,9 +23,9 @@ class Log implements Comparable<Log>{
 
     }
 
-    public Log(OperationType OPERATION_TYPE, BigDecimal balanceBefore, BigDecimal balanceAfter, BigDecimal debtLimitBefore, BigDecimal debtLimitAfter) {
+    public Log(OperationType operationType, BigDecimal balanceBefore, BigDecimal balanceAfter, BigDecimal debtLimitBefore, BigDecimal debtLimitAfter) {
         this.timeMarker = LocalDateTime.now();
-        this.OPERATION_TYPE = OPERATION_TYPE;
+        this.operationType = operationType;
         this.balanceBefore = balanceBefore;
         this.balanceAfter = balanceAfter;
         this.debtLimitBefore = debtLimitBefore;
@@ -36,8 +36,8 @@ class Log implements Comparable<Log>{
         return timeMarker;
     }
 
-    public OperationType getOPERATION_TYPE() {
-        return OPERATION_TYPE;
+    public OperationType getOperationType() {
+        return operationType;
     }
 
     public BigDecimal getBalanceBefore() {
@@ -60,7 +60,7 @@ class Log implements Comparable<Log>{
     public String toString() {
         return "Log{" +
                 "timeMarker=" + timeMarker +
-                ", OPERATION_TYPE=" + OPERATION_TYPE +
+                ", OPERATION_TYPE=" + operationType +
                 ", balanceBefore=" + balanceBefore +
                 ", balanceAfter=" + balanceAfter +
                 ((debtLimitBefore != null && debtLimitAfter != null) ? (", debtLimitBefore=" + debtLimitBefore + ", debtLimitAfter=" + debtLimitAfter) : ("") ) +
@@ -73,14 +73,14 @@ class Log implements Comparable<Log>{
         if (o == null || getClass() != o.getClass()) return false;
         Log log = (Log) o;
         return Objects.equals(timeMarker, log.timeMarker) &&
-                OPERATION_TYPE == log.OPERATION_TYPE &&
+                operationType == log.operationType &&
                 Objects.equals(balanceBefore, log.balanceBefore) &&
                 Objects.equals(balanceAfter, log.balanceAfter);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(timeMarker, OPERATION_TYPE, balanceBefore, balanceAfter);
+        return Objects.hash(timeMarker, operationType, balanceBefore, balanceAfter);
     }
 
     @Override

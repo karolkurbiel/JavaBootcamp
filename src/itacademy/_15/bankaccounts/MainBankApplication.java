@@ -1,5 +1,7 @@
 package itacademy._15.bankaccounts;
 
+import itacademy._15.bankaccounts.exceptions.InsufficientFoundsException;
+import itacademy._15.bankaccounts.exceptions.ReachedCreditLimitException;
 import itacademy._15.bankaccounts.restricted.Bank;
 
 import java.math.BigDecimal;
@@ -114,11 +116,16 @@ public class MainBankApplication {
         bankName = "GetBackLOL";
         accountName = "Mieczyslaw";
         accountNumber = accountNumbersListAid.get(accountName);
-        System.out.println("\tWithdraw: bank: " + bankName + "; account: " + accountNumber + "; operation value: " + value + ":"
-                + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
-                + "\n\t\tOperation status: " + centralBank.getBank(bankName).withdrawAccount(accountNumber, value)
-                + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
-        );
+
+        try {
+            System.out.println("\tWithdraw: bank: " + bankName + "; account: " + accountNumber + "; operation value: " + value + ":"
+                    + "\n\t\tAccount balance before: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
+                    + "\n\t\tOperation status: " + centralBank.getBank(bankName).withdrawAccount(accountNumber, value)
+                    + "\n\t\tAccount balance after: " + centralBank.getBank(bankName).getAccountBalance(accountNumber)
+            );
+        } catch(InsufficientFoundsException | ReachedCreditLimitException e) {
+            System.out.println("Operation failed: " + e);
+        }
         System.out.println("---");
 
         value = BigDecimal.valueOf(3_000.00);
