@@ -1,8 +1,10 @@
 package itacademy._16.boxesandshelves;
 
+import itacademy._16.boxesandshelves.items.Item;
+
 import java.util.ArrayList;
 
-public class Box<T> {
+public class Box<T extends Item> {
     private final String boxName;
     private final ArrayList<T> content;
 
