@@ -43,15 +43,15 @@ public class MainCatalogue {
     }
 
     private static LinkedHashMap<String, Item> getSortedMapByValue(Map<String, Item> mapToSort, Order sortingType) {
-        List<Map.Entry<String, Item>> entryList = new ArrayList<>(mapToSort.entrySet());
-        entryList.sort(new ItemByPriceComparator());
+        List<Item> itemList = new ArrayList<>(mapToSort.values());
+        itemList.sort(new ItemByPriceComparator());
         if(sortingType == Order.DESCENDING) {
-            Collections.reverse(entryList);
+            Collections.reverse(itemList);
         }
 
         LinkedHashMap<String, Item> sortedMap = new LinkedHashMap<>();
-        for(Map.Entry<String, Item> entry : entryList) {
-            sortedMap.put(entry.getKey(), entry.getValue());
+        for(Item item : itemList) {
+            sortedMap.put(item.getName(), item);
         }
 
         return sortedMap;
