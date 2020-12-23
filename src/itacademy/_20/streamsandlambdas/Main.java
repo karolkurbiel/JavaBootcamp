@@ -1,6 +1,7 @@
 package itacademy._20.streamsandlambdas;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) {
         List<Person> under65list = personList.stream()
-                .filter(person -> person.getBirthDate().isAfter(LocalDate.of((LocalDate.now().getYear() - 65), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth())))
+                .filter(person -> person.getBirthDate().isAfter(LocalDate.now().minus(65, ChronoUnit.YEARS)))
                 .filter(person -> person.getGender().equals(Person.Gender.MALE))
                 .sorted(Comparator.comparing(Person::getFamilyName))
                 .collect(Collectors.toList());
@@ -26,7 +27,7 @@ public class Main {
                 .collect(Collectors.toList());
 
         List<Person> peopleFromKrakow = personList.stream()
-                .filter(person -> person.getBirthDate().isAfter(LocalDate.of((LocalDate.now().getYear() - 18), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth())))
+                .filter(person -> person.getBirthDate().isAfter(LocalDate.now().minus(18, ChronoUnit.YEARS)))
                 .filter(person -> person.getAddress().getCity().equals("Krakow"))
                 .sorted(Comparator.comparing(Person::getFamilyName))
                 .collect(Collectors.toList());
@@ -54,7 +55,7 @@ public class Main {
                 .count();
 
         long numberOfMenAfter65 = personList.stream()
-                .filter(person -> person.getBirthDate().isBefore(LocalDate.of((LocalDate.now().getYear() - 65), LocalDate.now().getMonth(), LocalDate.now().getDayOfMonth())))
+                .filter(person -> person.getBirthDate().isBefore(LocalDate.now().minus(65, ChronoUnit.YEARS)))
                 .count();
 
         Optional<Person> oldestPerson = personList.stream()
