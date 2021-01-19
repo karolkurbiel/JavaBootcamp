@@ -21,15 +21,12 @@ public class Main {
     private static String generateUserName(Person person) {
         String s = person.getFirstName().charAt(0)
                 + person.getFamilyName()
-                + (getBirthDate(person).isPresent() ? getBirthDate(person).get() : LocalDate.now().getYear());
+                + getBirthDate(person).orElse(LocalDate.now()).getYear();
         return s.toLowerCase();
     }
 
-    private static Optional<Integer> getBirthDate(Person person) {
-        if(person.getBirthDate() == null) {
-            return Optional.empty();
-        }
-        return Optional.of(person.getBirthDate().getYear());
+    private static Optional<LocalDate> getBirthDate(Person person) {
+        return Optional.ofNullable(person.getBirthDate());
     }
 
     private static void initPersonList() {
@@ -64,6 +61,9 @@ public class Main {
 
         birthDate = LocalDate.of(1989,7,11);
         person = new Person("Ryan","Private",birthDate);
+        personList.add(person);
+
+        person = new Person("Tomasz", "Kozien", null);
         personList.add(person);
     }
 }
