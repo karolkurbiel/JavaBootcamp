@@ -1,9 +1,6 @@
 package itacademy._23.immutableobject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public final class Car {
     private final String manufacturer;
@@ -15,7 +12,7 @@ public final class Car {
         this.manufacturer = manufacturer;
         this.model = model;
         this.engine = new Engine(engine.getType(), engine.getHorsePower(), engine.getVolume());
-        this.wheels = new ArrayList<>(wheels);
+        this.wheels = copyList(wheels);
     }
 
     public String getManufacturer() {
@@ -31,7 +28,15 @@ public final class Car {
     }
 
     public List<Wheel> getWheels() {
-        return Collections.unmodifiableList(wheels);
+        return copyList(wheels);
+    }
+
+    private List<Wheel> copyList(List<Wheel> listToCopy) {
+        List<Wheel> copiedList = new ArrayList<>();
+        for(Wheel wheel : listToCopy) {
+            copiedList.add(new Wheel(wheel));
+        }
+        return copiedList;
     }
 
     @Override

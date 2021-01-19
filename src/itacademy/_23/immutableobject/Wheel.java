@@ -4,6 +4,10 @@ public class Wheel {
     private int radius;
     private int width;
 
+    public Wheel(Wheel wheel) {
+        this(wheel.getRadius(), wheel.getWidth());
+    }
+
     public Wheel(int radius, int width) {
         this.radius = radius;
         this.width = width;
