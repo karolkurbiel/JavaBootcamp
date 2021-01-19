@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CentralBank {
-    private static CentralBank instance = new CentralBank();
+    private static final CentralBank instance = new CentralBank();
     private final Map<String, Bank> bankList;
 
     public static CentralBank getInstance() {
@@ -39,11 +39,15 @@ public class CentralBank {
         Bank sendersBank = null;
         Bank recipientsBank = null;
         for(Map.Entry<String, Bank> bankEntry : bankList.entrySet()) {
-            if(bankEntry.getValue().getAccountList().containsKey(senderAccountNumber)) {
-                sendersBank = bankEntry.getValue();
-            }
-            if(bankEntry.getValue().getAccountList().containsKey(recipientAccountNumber)) {
-                recipientsBank = bankEntry.getValue();
+            try {
+                if(bankEntry.getValue().getAccountList().containsKey(senderAccountNumber)) {
+                    sendersBank = bankEntry.getValue();
+                }
+                if(bankEntry.getValue().getAccountList().containsKey(recipientAccountNumber)) {
+                    recipientsBank = bankEntry.getValue();
+                }
+            } catch(NullPointerException e) {
+                throw new AccountNotFoundException();
             }
         }
         if(sendersBank == null || recipientsBank == null) {
@@ -61,5 +65,9 @@ public class CentralBank {
             return bankList.get(name);
         }
         throw new BankNotFoundException();
+    }
+
+    public void reset() {
+        bankList.clear();
     }
 }
