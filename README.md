@@ -7,11 +7,11 @@ This repository contains a collection of smaller projects - coding excercises ma
  - JUnit
 
 ## Table of contents
-- [1. Classes and Objects](#classes-and-objects)
-    - [1.1 Car with engine](#car)
-    - [1.2 Mobile phone](#mobile-phone)
-    - [1.3 Cat](#cat)
-- [2. OOP principles](#oop-principles)
+- [1. Classes and Objects](#1-classes-and-objects)
+    - [1.1 Car with engine](#11-car-with-engine)
+    - [1.2 Mobile phone](#12-mobile-phone)
+    - [1.3 Cat](#13-cat)
+- [2. OOP principles](#2-oop-principles)
     - [2.1 Person and student](#person-and-student)
     - [2.2 Inheritance](#inheritance)
     - [2.3 Polymorphism](#polymorphism)
